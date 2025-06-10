@@ -25,44 +25,51 @@ DROP TRIGGER IF EXISTS tg_SatisSonrasiStokDusur;
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE abc_musteriler (
-    musteri_id VARCHAR(20) PRIMARY KEY,
-    musteri_ad VARCHAR(50),
-    musteri_soyad VARCHAR(50),
-    musteri_tip VARCHAR(20),
-    musteri_sinif VARCHAR(20),
-    musteri_tel VARCHAR(15),
-    musteri_mail VARCHAR(50),
-    musteri_bakiye DECIMAL(10,2) DEFAULT 0
+    musteri_id      VARCHAR(64)     NOT NULL,
+    musteri_ad      VARCHAR(64)     NOT NULL,
+    musteri_soyad   VARCHAR(64)     NOT NULL,
+    musteri_tip     VARCHAR(64)     NOT NULL,
+    musteri_sinif   VARCHAR(25)     NOT NULL,
+    musteri_tel     VARCHAR(25)     NOT NULL,
+    musteri_mail    VARCHAR(250)    NOT NULL,
+    musteri_bakiye  FLOAT          NOT NULL DEFAULT 0,
+    PRIMARY KEY(musteri_id)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE abc_urunler (
-    urun_id VARCHAR(20) PRIMARY KEY,
-    urun_ad VARCHAR(100),
-    urun_kategori VARCHAR(50),
-    urun_fiyat DECIMAL(10,2),
-    urun_aciklama TEXT,
-    urun_stok INT DEFAULT 0,
-    urun_birim VARCHAR(20)
+    urun_id         VARCHAR(64)     NOT NULL,
+    urun_ad         VARCHAR(250)    NOT NULL,
+    urun_kategori   VARCHAR(250)    NOT NULL,
+    urun_fiyat      FLOAT          NOT NULL,
+    urun_aciklama   VARCHAR(250)    NOT NULL,
+    urun_stok       FLOAT          NOT NULL DEFAULT 0,
+    urun_birim      VARCHAR(50)     NOT NULL,
+    PRIMARY KEY(urun_id)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE abc_satislar (
-    satis_id VARCHAR(20) PRIMARY KEY,
-    musteri_id VARCHAR(20),
-    urun_id VARCHAR(20),
-    satis_miktar INT,
-    satis_fiyat DECIMAL(10,2),
-    satis_tarih DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (musteri_id) REFERENCES abc_musteriler(musteri_id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (urun_id) REFERENCES abc_urunler(urun_id) ON DELETE CASCADE ON UPDATE CASCADE
+    satis_id        VARCHAR(20)     NOT NULL,
+    musteri_id      VARCHAR(64)     NOT NULL,
+    urun_id         VARCHAR(64)     NOT NULL,
+    satis_miktar    INT            NOT NULL,
+    satis_fiyat     DECIMAL(10,2)   NOT NULL,
+    satis_tarih     DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(satis_id),
+    FOREIGN KEY(musteri_id) REFERENCES abc_musteriler(musteri_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY(urun_id) REFERENCES abc_urunler(urun_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE abc_odemeler (
-    odeme_id VARCHAR(20) PRIMARY KEY,
-    musteri_id VARCHAR(20),
-    odeme_miktar DECIMAL(10,2),
-    odeme_tarih DATETIME DEFAULT CURRENT_TIMESTAMP,
-    odeme_tip VARCHAR(50),
-    FOREIGN KEY (musteri_id) REFERENCES abc_musteriler(musteri_id) ON DELETE CASCADE ON UPDATE CASCADE
+    odeme_id        VARCHAR(20)     NOT NULL,
+    musteri_id      VARCHAR(64)     NOT NULL,
+    odeme_miktar    DECIMAL(10,2)   NOT NULL,
+    odeme_tarih     DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    odeme_tip       VARCHAR(50)     NOT NULL,
+    PRIMARY KEY(odeme_id),
+    FOREIGN KEY(musteri_id) REFERENCES abc_musteriler(musteri_id)
+        ON DELETE CASCADE ON UPDATE CASCADE
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DELIMITER $$
