@@ -310,22 +310,6 @@ END$$
 
 DELIMITER ;
 
-
-ALTER DATABASE abc_kantin CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-
-ALTER TABLE abc_musteriler CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-
- ALTER TABLE abc_urunler CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-
-ALTER TABLE abc_satislar CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-
-ALTER TABLE abc_odemeler CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-
 DROP PROCEDURE IF EXISTS sp_SatisGuncelle;
 DELIMITER //
 CREATE PROCEDURE sp_SatisGuncelle(
@@ -439,7 +423,7 @@ DELIMITER ;
 
 
 DROP TRIGGER IF EXISTS tg_SatisOncesiStokKontrol;
-DROP TRIGGER IF EXISTS tg_SatisSonrasiStokDusur;
+
 
 DELIMITER //
 CREATE TRIGGER tg_SatisOncesiStokKontrol
